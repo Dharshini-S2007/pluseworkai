@@ -1,18 +1,42 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
-import CardDemo from './components/ui/cardcom'
+import { useState } from "react";
+import "./App.css";
+
+import LandingPage from "./components/LandingPage";
+import CardDemo from "./components/ui/cardcom";
+import Signup from "./components/Signup.jsx";
+import CreateTask from "./components/CreateTask";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <CardDemo />
-    </>
-  )
+    const [currentPage, setCurrentPage] = useState("landing");
+
+    return (
+        <>
+            {currentPage === "landing" && (
+                <LandingPage
+                    onGetStarted={() => setCurrentPage("login")}
+                    onSignUp={() => setCurrentPage("signup")}
+                />
+            )}
+
+            {currentPage === "login" && (
+                <CardDemo
+                    onLoginSuccess={() => setCurrentPage("tasks")}
+                    onSignUp={() => setCurrentPage("signup")}
+                />
+            )}
+
+            {currentPage === "signup" && (
+                <Signup
+                    onBackToLogin={() => setCurrentPage("login")}
+                />
+            )}
+
+            {currentPage === "tasks" && (
+                <CreateTask />
+            )}
+        </>
+    );
 }
 
-export default App
+export default App;
